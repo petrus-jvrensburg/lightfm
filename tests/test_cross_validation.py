@@ -6,14 +6,6 @@ from lightfm.data import Dataset
 from lightfm.datasets import fetch_movielens
 
 
-def _assert_disjoint(x, y):
-
-    x = x.tocsr()
-    y = y.tocoo()
-
-    for (i, j) in zip(y.row, y.col):
-        assert x[i, j] == 0.0
-
 def _fake_data(n):
     users = np.random.choice(10000, (n, 1))
     items = np.random.choice(10000, (n, 1))
@@ -34,4 +26,3 @@ def test_random_train_test_split(test_percentage):
     train, test = random_train_test_split(interactions, test_percentage=test_percentage)
 
     assert test.nnz / float(interactions.nnz) == test_percentage
-    _assert_disjoint(train, test)
